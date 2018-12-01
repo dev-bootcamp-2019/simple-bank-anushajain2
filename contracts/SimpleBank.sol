@@ -43,7 +43,7 @@ contract SimpleBank {
     /// @return The balance of the user
     // A SPECIAL KEYWORD prevents function from editing state variables;
     // allows function to run locally/off blockchain
-    function balance() public returns (uint) {
+    function balance() public view returns (uint) {
         /* Get the balance of the sender of this transaction */
         uint balance = balances[msg.sender];
         return balance;
@@ -66,9 +66,7 @@ contract SimpleBank {
     function deposit() payable public returns (uint) {
         /* Add the amount to the user's balance, call the event associated with a deposit,
           then return the balance of the user */
-          uint value = msg.value;
-          msg.sender.transfer(value);
-          balances[msg.sender] = balances[msg.sender] + value;
+          balances[msg.sender] = balances[msg.sender] + msg.value;
           emit LogDepositMade(msg.sender, msg.value);
           return balances[msg.sender];
     }
